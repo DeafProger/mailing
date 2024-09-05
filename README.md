@@ -1,3 +1,3 @@
 # mailing
-final course work in Django
-thank You for watching
+Final course work in Django. 
+Thank You for watching
