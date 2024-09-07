@@ -1,6 +1,4 @@
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib.auth.views import LoginView, logout_then_login, auth_logout
+from django.contrib.auth.views import LoginView
 from users.views import UserCreateView, email_verification, logout, UserListView, ManagerUserUpdateView
 from users.apps import UsersConfig
 from django.urls import path
@@ -17,6 +15,6 @@ urlpatterns = [
     path('email-confirm/<str:token>/', email_verification, name='email-confirm'),
 
     # Урлы для просмотра и редактирования пользователя модератором
-    # path('user/', UserListView.as_view(), name='user_list'),
-    # path('edit_user/<int:pk>/', ManagerUserUpdateView.as_view(), name='edit_user'),
-]  # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', UserListView.as_view(), name='user_list'),
+    path('edit_user/<int:pk>/', ManagerUserUpdateView.as_view(), name='edit_user'),
+]

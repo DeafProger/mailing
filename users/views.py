@@ -47,6 +47,7 @@ def email_verification(request, token):
 
 class UserListView(ListView):
     """Класс-контроллер для вывода всех пользователей"""
+    template_name = 'user_list.html'
     model = User
 
 
