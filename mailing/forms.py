@@ -1,5 +1,4 @@
 from django.forms import ModelForm, BooleanField
-
 from mailing.models import Message, Client, Mailing
 
 
@@ -19,27 +18,25 @@ class MailingForm(StyleFormMixin, ModelForm):
     """Класс форма для рассылок"""
     class Meta:
         model = Mailing
-        exclude = ('start_time', 'status') #  , 'date_letter_was_sent', 'creator')
-
-
-'''
-class MessageForm(StyleFormMixin, ModelForm):
-    """Класс форма для сообщений для рассылки"""
-    class Meta:
-        model = Message
-        exclude = ('creator',)
-
-
-class CustomerForm(StyleFormMixin, ModelForm):
-    """Класс форма для клиентов сервиса"""
-    class Meta:
-        model = Customer
-        exclude = ('creator',)
+        exclude = ('owner',)  # , 'date_letter_was_sent', 'creator')
 
 
 class MailingManagerForm(StyleFormMixin, ModelForm):
     """Класс форма для редактирования рассылки менеджером"""
     class Meta:
         model = Mailing
-        fields = ('active',)
-'''
+        fields = '__all__'
+
+
+class ClientForm(StyleFormMixin, ModelForm):
+    """Класс форма для клиентов сервиса"""
+    class Meta:
+        model = Client
+        exclude = ('owner',)
+
+
+class MessageForm(StyleFormMixin, ModelForm):
+    """Класс форма для сообщений для рассылки"""
+    class Meta:
+        model = Message
+        exclude = ('creator',)

@@ -1,0 +1,25 @@
+{% extends 'basic_template.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    {% for message in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ message.subject_of_letter }}</h4>
+            </div>
+            <div class="card-body">
+                <a class="p-2 btn btn-outline-primary" href="/info_message/{{ message.id }}/">Смотреть</a>
+                {% if user == message.creator %}
+                <a class="p-2 btn btn-outline-primary" href="/edit_message/{{ message.id }}/">Изменить</a>
+                <a class="p-2 btn btn-outline-primary" href="/delete_message/{{ message.id }}/">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+ {% if perms.mailing.can_disable_mailing or user == mailing.owner %}
+ <a class="p-2 btn btn-outline-primary" href="/create_message/">Создать новое сообщение для рассылки</a>
+ {% endif %}
+{% endblock %}

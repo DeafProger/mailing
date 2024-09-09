@@ -1,0 +1,28 @@
+{% extends 'basic_template.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    {% for client in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ client.email }}</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li>{{ client.name }}</li>
+                </ul>
+                {% if perms.mailing.can_disable_mailing or user == mailing.owner %}
+                <a class="p-2 btn btn-outline-primary" href="/info_client/{{ client.id }}/">Cмотреть</a>
+                <a class="p-2 btn btn-outline-primary" href="/edit_client/{{ client.id }}/">Изменить</a>
+                <a class="p-2 btn btn-outline-primary" href="/delete_client/{{ client.id }}/">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+ {% if perms.mailing.can_disable_mailing or user == mailing.owner %}
+ <a class="p-2 btn btn-outline-primary" href="/create_client/">Создать нового клиента сервиса</a>
+ {% endif %}
+{% endblock %}
