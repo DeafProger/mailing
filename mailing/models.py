@@ -69,7 +69,8 @@ class Attempt(models.Model):
     """Модель попытки рассылки"""
     datetime_of_last_attempt = models.DateTimeField(verbose_name='Дата и время последней попытки рассылки')
     attempt_status = models.TextField(verbose_name='статус попытки (успешно/не успешно)')
-    # answer = models.ForeignKey(Mailing, on_delete=models.CASCADE, verbose_name='Ответ сервера рассылки, если есть')
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE,
+                                verbose_name='Связь рассылки и информации о её статусе')
 
     def __str__(self):
         return f'{self.attempt_status}'
