@@ -1,4 +1,4 @@
-from mailing.models import Client, Mailing  # , Log
+from mailing.models import Client, Mailing, Attempt
 from django.contrib import admin
 
 
@@ -17,7 +17,7 @@ class MailingAdmin(admin.ModelAdmin):
         return ', '.join([p.email for p in obj.client.all()])
 
 
-# @admin.register(Log)
-# class LogAdmin(admin.ModelAdmin):
-#     list_display = ('time', 'status', 'server_response', 'mailing_list', 'client',)
-#     list_filter = ('status', 'server_response', 'client',)
+@admin.register(Attempt)
+class AttemptAdmin(admin.ModelAdmin):
+    list_display = ('attempt_status',)
+    list_filter = ('attempt_status',)

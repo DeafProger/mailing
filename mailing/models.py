@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from users.models import User
 # Create your models here.
@@ -36,7 +37,7 @@ class Mailing(models.Model):
     frequency_tuple = (('daily', 'раз в день'), ('weekly', 'раз в неделю'), ('monthly', 'раз в месяц'),)
     status_tuple = (('completed', 'завершена'), ('created', 'создана'), ('started', 'запущена'),)
 
-    start_time = models.DateTimeField(auto_now=True, verbose_name='время начала рассылки')
+    start_time = models.DateTimeField(verbose_name='время начала рассылки')
     frequency = models.CharField(max_length=50, verbose_name='периодичность', choices=frequency_tuple, default='daily')
     status = models.CharField(max_length=50, verbose_name='статус отправки', choices=status_tuple, default='created')
     message = models.ForeignKey(Message, on_delete=models.SET_NULL, verbose_name="Сообщение рассылки",
@@ -55,6 +56,7 @@ class Mailing(models.Model):
         else:
             return result
 
+
     class Meta:
         verbose_name = 'настройки'
         verbose_name_plural = 'настройки'
@@ -67,13 +69,15 @@ class Mailing(models.Model):
 
 class Attempt(models.Model):
     """Модель попытки рассылки"""
-    datetime_of_last_attempt = models.DateTimeField(verbose_name='Дата и время последней попытки рассылки')
+    attempt_last_time = models.DateTimeField(verbose_name='Дата и время последней попытки рассылки')
+    attempt_next_time = models.DateTimeField(verbose_name='Дата и время следующей попытки рассылки')
     attempt_status = models.TextField(verbose_name='статус попытки (успешно/не успешно)')
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE,
                                 verbose_name='Связь рассылки и информации о её статусе')
 
+
     def __str__(self):
-        return f'{self.attempt_status}'
+        return f'{self.attempt_last_time}'
 
     class Meta:
         verbose_name = "Попытка рассылки"

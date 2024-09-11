@@ -148,7 +148,8 @@ class AttemptListView(ListView):
     model = Attempt
 
 
-class AttemptDetailView(DetailView):
+class AttemptDeleteView(DeleteView):
     """Класс-контроллер для вывода информации по попытке рассылки"""
-    template_name = 'attempt_detail.html'
+    success_url = reverse_lazy('mailing:attempt_list')
+    template_name = 'attempt_delete.html'
     model = Attempt

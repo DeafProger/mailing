@@ -1,0 +1,20 @@
+{% extends 'basic_template.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row text-center">
+    <div class="col-6">
+        <div class="card mb-4 box-shadow">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>Время последней попытки: {{ attempt.attempt_last_time }}</li>
+                        <li>Время следующей попытки: {{ attempt.attempt_next_time }}</li>
+                        <li>{{ object.attempt_status }}</li>
+                    </ul>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

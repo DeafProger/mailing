@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from mailing.apps import MailingConfig
-from mailing.views import AttemptListView, AttemptDetailView,\
+from mailing.views import AttemptListView, AttemptDeleteView,\
     MailingListView, MailingCreateView, MailingUpdateView, MailingDetailView, MailingDeleteView,\
     MessageListView, MessageCreateView, MessageUpdateView, MessageDetailView, MessageDeleteView,\
     ClientListView, ClientCreateView, ClientUpdateView, ClientDetailView, ClientDeleteView
@@ -34,6 +34,6 @@ urlpatterns = [
 
     # Урлы для попыток рассылки
     path('attempt/', AttemptListView.as_view(), name='attempt_list'),
-    path('info_attempt/<int:pk>/', AttemptDetailView.as_view(), name='info_attempt'),
+    path('attempt_delete/<int:pk>/', AttemptDeleteView.as_view(), name='delete_attempt'),
 
 ] 
