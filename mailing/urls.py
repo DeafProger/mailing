@@ -1,21 +1,21 @@
-from django.conf import settings
-from django.conf.urls.static import static
-from django.urls import path
-from mailing.apps import MailingConfig
-from mailing.views import AttemptListView, AttemptDeleteView,\
+from mailing.views import AttemptListView, AttemptDeleteView, ContactsView, HomePageView,\
     MailingListView, MailingCreateView, MailingUpdateView, MailingDetailView, MailingDeleteView,\
     MessageListView, MessageCreateView, MessageUpdateView, MessageDetailView, MessageDeleteView,\
     ClientListView, ClientCreateView, ClientUpdateView, ClientDetailView, ClientDeleteView
+from django.views.decorators.cache import cache_page
+from mailing.apps import MailingConfig
+from django.urls import path
 
 
 app_name = MailingConfig.name
 
 urlpatterns = [
     # Урлы для рассылок
-    path('', MailingListView.as_view(), name='mailing_list'),
+    path('', HomePageView.as_view(), name='home_page'),
+    path('mailing_list/', MailingListView.as_view(), name='mailing_list'),
     path('create_mailing/', MailingCreateView.as_view(), name='create_mailing'),
     path('edit_mailing/<int:pk>/', MailingUpdateView.as_view(), name='edit_mailing'),
-    path('info_mailing/<int:pk>/', MailingDetailView.as_view(), name='info_mailing'),
+    path('info_mailing/<int:pk>/', cache_page(60)(MailingDetailView.as_view()), name='info_mailing'),
     path('delete_mailing/<int:pk>/', MailingDeleteView.as_view(), name='delete_mailing'),
 
     # Урлы для клиентов сервиса
@@ -35,5 +35,7 @@ urlpatterns = [
     # Урлы для попыток рассылки
     path('attempt/', AttemptListView.as_view(), name='attempt_list'),
     path('attempt_delete/<int:pk>/', AttemptDeleteView.as_view(), name='delete_attempt'),
+
+    path('contacts/', ContactsView.as_view(), name='contacts'),
 
 ] 

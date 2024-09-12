@@ -1,13 +1,30 @@
-from django.conf import settings
-from django.conf.urls.static import static
+"""
+URL configuration for first project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+
 from django.urls import path
+from .views import BlogListView, BlogCreateView, BlogDetailView, BlogDeleteView, BlogUpdateView
+from django.views.decorators.cache import cache_page
 
-from blog.apps import BlogConfig
-from blog.views import BlogListView
-
-app_name = BlogConfig.name
+app_name = 'blog'
 
 urlpatterns = [
-    # Урлы для главной страницы
-    path('blog/', BlogListView.as_view(), name='blog_list'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', BlogListView.as_view(), name='blog_list'),
+    path('blog_form/', BlogCreateView.as_view(), name='blog_form'),
+    path('blog_detail/<int:pk>/', cache_page(60)(BlogDetailView.as_view()), name='blog_detail'),
+    path('blog_delete/<int:pk>/', BlogDeleteView.as_view(), name='blog_delete'),
+    path('blog_update/<int:pk>/', BlogUpdateView.as_view(), name='blog_update'),
+]

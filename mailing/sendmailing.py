@@ -2,7 +2,6 @@ from config.settings import EMAIL_HOST_USER
 from mailing.models import Mailing, Attempt
 from django.core.mail import send_mail
 from django.utils import timezone
-from django.conf import settings
 from datetime import timedelta
 from time import sleep
 import smtplib
@@ -38,6 +37,8 @@ def send_mailing():
                 # Отправляю рассылку пользователям
                 for mail in mails:
                     try:
+                        maIling.status = 'started'
+                        maIling.save()
                         send_mail(
                             subject=subject_of_letter,
                             message=message,
@@ -45,10 +46,13 @@ def send_mailing():
                             recipient_list=[mail],
                             fail_silently=False,
                         )
+                        maIling.status = 'completed'
+                        maIling.save()
 
                         # Создаю получателя и добавляю его в список получивших письмо
                         recipient = f'адресату {mail} успешно отправлена рассылка'
                         mailing_list_recipients.append(recipient)
+
 
                     except smtplib.SMTPException as e:
                         # Создаю получателя и добавляю его в список не получивших письмо
@@ -59,6 +63,7 @@ def send_mailing():
                     while next_time < NOW:
                         next_time += period[0]
                     maIling.start_time = next_time
+                    maIling.status = 'started'
                     maIling.save()
 
                     # Создаю новый экземпляр модели попытки рассылки и пишу что он успешный

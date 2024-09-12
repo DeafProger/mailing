@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.db import models
 from users.models import User
 # Create your models here.
@@ -56,14 +55,20 @@ class Mailing(models.Model):
         else:
             return result
 
-
     class Meta:
         verbose_name = 'настройки'
         verbose_name_plural = 'настройки'
         # permissions = [('set_status_to_completed', 'Can disable mailing')]
         permissions = [
+            ('can_view_userslist_mailing', 'can view userslist mailing'),
+            ('can_disable_user_mailing', 'can disable user mailing'),
+            ('can_view_any_mailing', 'can view any mailing lists'),
             ('can_disable_mailing', 'can disable mailing'),
-            ('can_view_any_mailing', 'can view any mailing lists')
+
+            ('can_not_update_mailing_and_message', 'cannot edit mailing and message'),
+            ('can_not_manage_mailing', 'cannot manage mailing'),
+            ('can_not_edit_mailing', 'cannot edit mailing'),
+
         ]
 
 
@@ -74,7 +79,6 @@ class Attempt(models.Model):
     attempt_status = models.TextField(verbose_name='статус попытки (успешно/не успешно)')
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE,
                                 verbose_name='Связь рассылки и информации о её статусе')
-
 
     def __str__(self):
         return f'{self.attempt_last_time}'
