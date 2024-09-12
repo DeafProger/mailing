@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from mailing.tasks import shedule, send_mailing
+from mailing.sendmailing import send_mailing
 
 
 class Command(BaseCommand):
@@ -7,4 +7,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Соответственно метод для рассылки данных по почте"""
-        shedule()
+        send_mailing()

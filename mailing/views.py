@@ -23,7 +23,7 @@ class ClientDetailView(DetailView):
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
     """Класс-контроллер для удаления клиента сервиса"""
     model = Client
-    success_url = reverse_lazy('mailing:customer_list')
+    success_url = reverse_lazy('mailing:client_list')
     template_name = 'client_delete.html'
 
 
